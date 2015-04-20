@@ -1,0 +1,11 @@
+[package]
+name = "shell"
+version = "0.0.1"
+authors = ["Ignacio Corderi <icorderi@msn.com>"]
+homepage = "https://icorderi.github.io/shell.rs/"
+repository = "https://github.com/icorderi/shell.rs/"
+documentation = "https://icorderi.github.io/shell.rs/doc/shell/"
+description = "Generic shell support. Also incudes support for colors and error printing."
+keywords = [ "shell", "colors", "console", "output" ]
+readme = "README.md"
+license = "MIT"
