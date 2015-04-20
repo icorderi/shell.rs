@@ -1,0 +1,13 @@
+language: rust
+
+env:
+  global:
+    secure: lM8sY8wJcIpeSxi6V0pkj88qwdbae3NVjQu/xKvQ5NMXedrqqvRU5fWhO9tRh8mLh8od7pmjNIKUpcgKkyD837mFRyXik1KRdTb5Gp3ti1+1Q7JNzCerwAJB7U6wIywsd4R9ZVlTKM4xk35loEBhyKkETslDBQ3n07kn5hX7cVk=
+
+script:
+  - cargo build --release --verbose
+  - cargo test --verbose
+  - cargo doc --no-deps --verbose
+
+after_success:
+  - bash .travis-update-gh-pages.sh
