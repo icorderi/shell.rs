@@ -9,3 +9,5 @@ description = "Generic shell support. Also incudes support for colors and error 
 keywords = [ "shell", "colors", "console", "output" ]
 readme = "README.md"
 license = "MIT"
+
+[dependencies.term]
