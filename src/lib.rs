@@ -6,6 +6,7 @@
 #![crate_name = "shell"]
 
 extern crate term;
+extern crate libc;
 
 use std::fmt;
 use std::io::prelude::*;
@@ -44,7 +45,44 @@ struct UghWhyIsThisNecessary {
     inner: Box<Write + Send>,
 }
 
+#[cfg(unix)]
+fn isatty(fd: libc::c_int) -> bool {
+    unsafe { libc::isatty(fd) != 0 }
+}
+#[cfg(windows)]
+fn isatty(fd: libc::c_int) -> bool {
+    extern crate kernel32;
+    extern crate winapi;
+    unsafe {
+        let handle = kernel32::GetStdHandle(
+            if fd == libc::STDOUT_FILENO {
+                winapi::winbase::STD_OUTPUT_HANDLE
+            } else {
+                winapi::winbase::STD_ERROR_HANDLE
+            });
+        let mut out = 0;
+        kernel32::GetConsoleMode(handle, &mut out) != 0
+    }
+}
+
 impl MultiShell {
+
+    pub fn new_stdio(verbose: bool) -> MultiShell {
+        let tty = isatty(libc::STDERR_FILENO);
+        let stderr = Box::new(io::stderr()) as Box<Write + Send>;
+
+        let config = ShellConfig { color: true, verbose: verbose, tty: tty };
+        let err = Shell::create(stderr, config);
+
+        let tty = isatty(libc::STDOUT_FILENO);
+        let stdout = Box::new(io::stdout()) as Box<Write + Send>;
+
+        let config = ShellConfig { color: true, verbose: verbose, tty: tty };
+        let out = Shell::create(stdout, config);
+
+        MultiShell::new(out, err, verbose)
+    }
+
     pub fn new(out: Shell, err: Shell, verbose: bool) -> MultiShell {
         MultiShell { out: out, err: err, verbose: verbose }
     }
@@ -203,4 +241,21 @@ impl Write for UghWhyIsThisNecessary {
     fn flush(&mut self) -> io::Result<()> {
         self.inner.flush()
     }
+}
+
+#[cfg(test)]
+mod test {
+
+    use MultiShell;
+
+    #[test]
+    fn create_multishell() {
+       MultiShell::new_stdio(false);
+    }
+
+    #[test]
+    fn create_multishell_verbose() {
+       MultiShell::new_stdio(true);
+    }
+
 }
