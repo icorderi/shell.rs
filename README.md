@@ -5,13 +5,15 @@ Work in progres...
 
 ## Getting Started
 
-If you are using [Cargo] and want to use the latest stable shell.rs [crate] available at [crates.io] add this to your `Cargo.toml`:
+### Adding the dependency
+
+To use the latest stable shell.rs [crate] add this to your `Cargo.toml`:
 
 ```toml
 [dependencies.shell]
 ```
 
-To get the dependency to be linked directly to the GitHub repo add this instead:
+or if you want to link it to the GitHub repo add this instead:
 
 ```toml
 [dependencies.shell]
@@ -20,31 +22,16 @@ To get the dependency to be linked directly to the GitHub repo add this instead:
 
 > **Note:** For more information on handling [dependencies] check the official cargo site.
 
-[Cargo]: http://doc.crates.io/index.html
 [crate]: https://crates.io/crates/shell.rs
-[crates.io]: https://crates.io/
 [dependencies]: http://doc.crates.io/guide.html#adding-dependencies
 
 ### Importing Shell.rs
 
-To import Shell.rs from your code add this statement:
+To import Shell.rs add this to your code:
 
 ```rust
 extern crate shell;
 ```
-
-### [Optional] Installing Kinetic-rust from source
-
-    git clone https://github.com/icorderi/shell.rs.git
-    cd shell.rs
-    cargo build
-
-Additionally you can run the tests or compile the documentation locally:
-
-    cargo test
-    cargo doc
-
-The local HTML documentation will be available at `./target/doc/shell/index.html`.
 
 ## Documentation
 
