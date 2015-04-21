@@ -9,14 +9,18 @@ extern crate term;
 extern crate libc;
 
 use std::fmt;
+use std::fmt::Display;
 use std::io::prelude::*;
 use std::io;
+use std::error::Error;
 
 use term::Attr;
-use term::color::{Color, BLACK, RED, GREEN, YELLOW};
+use term::color::{Color, BLACK, RED, GREEN, YELLOW, BRIGHT_YELLOW, BRIGHT_RED};
 use term::{Terminal, TerminfoTerminal, color};
 
 use self::AdequateTerminal::{NoColor, Colored};
+
+static GREY: u16 = 8;
 
 #[derive(Clone, Copy)]
 pub struct ShellConfig {
@@ -134,6 +138,38 @@ impl MultiShell {
     pub fn get_verbose(&self) -> bool {
         self.verbose
     }
+
+    pub fn tag<T: Display, U: Display>(&mut self, tag: T, message: U) -> io::Result<()>{
+        self.out().say_status(tag, message, BLACK)
+    }
+
+    pub fn header<T: Display>(&mut self, message: T) -> io::Result<()> {
+        self.out().say_attr(message, BLACK, Attr::Underline(true), true)
+    }
+
+    pub fn comment<T: Display>(&mut self, message: T) -> io::Result<()> {
+        self.out().say_attr(message, GREY, Attr::Dim, true)
+    }
+
+    pub fn tag_color<T: Display, U: Display>(&mut self, tag: T, message: U, color: Color) -> io::Result<()>{
+        self.out().say_status(tag, message, color)
+    }
+
+    pub fn error_full(&mut self, e: &Error, mut show_cause: bool) -> io::Result<()>{
+        try!(self.err().say_write(      "error: ", BRIGHT_RED));
+        try!(self.err().say_attr(format!("{}", e.description()), BLACK, Attr::Bold, true));
+
+        let mut e = e;
+        while show_cause {
+            if e.cause().is_some() {
+                e = e.cause().unwrap();
+                try!(self.err().say_write(      "caused by: ", BRIGHT_YELLOW));
+                try!(self.err().say(format!("{}", e.description()), BLACK));
+            } else { show_cause = false; }
+        }
+
+        Ok(())
+    }
 }
 
 impl Shell {
@@ -163,6 +199,29 @@ impl Shell {
         where F: FnMut(&mut Shell) -> io::Result<()>
     {
         if !self.config.verbose { return callback(self) }
+        Ok(())
+    }
+
+    pub fn say_write<T: Display>(&mut self, message: T, color: Color) -> io::Result<()> {
+        try!(self.reset());
+        if color != BLACK { try!(self.fg(color)); }
+        try!(write!(self, "{}", message));
+        try!(self.reset());
+        try!(self.flush());
+        Ok(())
+    }
+
+    pub fn say_attr<T: Display>(&mut self, message: T, color: Color, attr: Attr, new_line: bool) -> io::Result<()> {
+        try!(self.reset());
+        try!(self.attr(attr));
+        if color != BLACK { try!(self.fg(color)); }
+        if new_line {
+            try!(write!(self, "{}\n", message));
+        } else {
+            try!(write!(self, "{}", message));
+        }
+        try!(self.reset());
+        try!(self.flush());
         Ok(())
     }
 

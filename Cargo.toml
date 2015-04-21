@@ -1,6 +1,6 @@
 [package]
 name = "shell"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Ignacio Corderi <icorderi@msn.com>"]
 homepage = "https://icorderi.github.io/shell.rs/"
 repository = "https://github.com/icorderi/shell.rs/"
