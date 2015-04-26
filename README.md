@@ -2,6 +2,7 @@
 Work in progres...
 
 [![Build Status](https://travis-ci.org/icorderi/shell.rs.png?branch=master)](https://travis-ci.org/icorderi/shell.rs)
+[![](http://meritbadge.herokuapp.com/shell)](https://crates.io/crates/shell)
 
 ## Getting Started
 
