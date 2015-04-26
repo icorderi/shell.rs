@@ -1,8 +1,8 @@
 # Shell.rs
-Work in progres...
 
-[![Build Status](https://travis-ci.org/icorderi/shell.rs.png?branch=master)](https://travis-ci.org/icorderi/shell.rs)
-[![](http://meritbadge.herokuapp.com/shell)](https://crates.io/crates/shell)
+[![Travis](https://img.shields.io/travis/icorderi/shell.rs.svg)](https://travis-ci.org/icorderi/shell.rs)
+[![Crates.io](https://img.shields.io/crates/v/shell.svg)](https://crates.io/crates/shell)
+[![Crates.io](https://img.shields.io/crates/l/shell.svg)](https://github.com/icorderi/shell.rs/blob/master/LICENSE/mit.md)
 
 ## Getting Started
 
