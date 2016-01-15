@@ -1,6 +1,6 @@
 [package]
 name = "shell"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Ignacio Corderi <icorderi@msn.com>"]
 homepage = "https://icorderi.github.io/shell.rs/"
 repository = "https://github.com/icorderi/shell.rs/"
@@ -10,5 +10,6 @@ keywords = [ "shell", "colors", "console", "output" ]
 readme = "README.md"
 license = "MIT"
 
-[dependencies.term]
-[dependencies.libc]
+[dependencies]
+term = "0.2"
+libc = "*"
