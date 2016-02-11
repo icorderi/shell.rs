@@ -12,4 +12,4 @@ license = "MIT"
 
 [dependencies]
 term = "0.2"
-libc = "*"
+libc = "0.2"
