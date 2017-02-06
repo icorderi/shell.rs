@@ -243,17 +243,17 @@ impl Shell {
         Ok(())
     }
 
-    fn fg(&mut self, color: color::Color) -> io::Result<bool> {
+    fn fg(&mut self, color: color::Color) -> term::Result<()> {
         match self.terminal {
             Colored(ref mut c) => c.fg(color),
-            NoColor(_) => Ok(false)
+            NoColor(_) => Ok(())
         }
     }
 
-    fn attr(&mut self, attr: Attr) -> io::Result<bool> {
+    fn attr(&mut self, attr: Attr) -> term::Result<()> {
         match self.terminal {
             Colored(ref mut c) => c.attr(attr),
-            NoColor(_) => Ok(false)
+            NoColor(_) => Ok(())
         }
     }
 
@@ -264,9 +264,9 @@ impl Shell {
         }
     }
 
-    fn reset(&mut self) -> io::Result<()> {
+    fn reset(&mut self) -> term::Result<()> {
         match self.terminal {
-            Colored(ref mut c) => c.reset().map(|_| ()),
+            Colored(ref mut c) => c.reset(),
             NoColor(_) => Ok(())
         }
     }

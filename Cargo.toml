@@ -1,6 +1,6 @@
 [package]
 name = "shell"
-version = "0.3.1"
+version = "0.3.2"
 authors = ["Ignacio Corderi <icorderi@msn.com>"]
 homepage = "https://icorderi.github.io/shell.rs/"
 repository = "https://github.com/icorderi/shell.rs/"
@@ -11,5 +11,5 @@ readme = "README.md"
 license = "MIT"
 
 [dependencies]
-term = "0.2"
+term = "0.4"
 libc = "0.2"
